@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { never, Observable } from 'rxjs';
+import { AccessToken } from './access-token';
 
 declare var window: any;
 
@@ -21,43 +22,54 @@ export class ClosureService implements HttpService {
 	constructor(private readonly httpClient: HttpClient) {
 		((clazz: HttpService) => {
 
-			let accessToken: string;
+			const token = new AccessToken();
 
 			clazz.get = <T>(url: string): Observable<T> => {
-				const httpHeaders = new HttpHeaders({
-					Authorization: 'Bearer ' + accessToken
-				});
 
-				return httpClient.get<T>(url, {
-					headers: httpHeaders
+				return token.on((accessToken: string) => {
+
+					const httpHeaders = new HttpHeaders({
+						Authorization: 'Bearer ' + accessToken
+					});
+
+					return httpClient.get<T>(url, {
+						headers: httpHeaders
+					});
 				});
 			};
 
 			clazz.post = <T>(url: string): Observable<T> => {
 
-				const httpHeaders = new HttpHeaders({
-					Authorization: 'Bearer ' + accessToken
-				});
+				return token.on((accessToken: string) => {
 
-				return httpClient.post<T>(url, {
-					headers: httpHeaders
+					const httpHeaders = new HttpHeaders({
+						Authorization: 'Bearer ' + accessToken
+					});
+
+					return httpClient.post<T>(url, {
+						headers: httpHeaders
+					});
 				});
 			};
 
-			const httpHeaders = new HttpHeaders({
-				'Content-Type': 'application/json'
-			});
+			const fetchAccessToken = () => {
 
-			this.httpClient.post('http://localhost:4000/login', {
-					headers: httpHeaders,
-					body: JSON.stringify({
-						username: ClosureService.USERNAME
-					})
-				})
-				.subscribe((data: any) => {
-					accessToken = data.accessToken;
-					console.log(accessToken)
+				const httpHeaders = new HttpHeaders({
+					'Content-Type': 'application/json'
 				});
+
+				this.httpClient.post('http://localhost:4000/login', {
+						headers: httpHeaders,
+						body: JSON.stringify({
+							username: ClosureService.USERNAME
+						})
+					})
+					.subscribe((data: any) => {
+						token.set(data.accessToken);
+					});
+			};
+
+			fetchAccessToken();
 
 		})(this);
 	}
