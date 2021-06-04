@@ -1,5 +1,5 @@
-import { ReplaySubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 
 export class AccessToken {
 
@@ -12,10 +12,12 @@ export class AccessToken {
 		this.token$.next(token);
 	}
 
-	on(callback: (token: string) => any): any {
+	on(callback: (token: string) => Observable<any>): Observable<any> {
 		return this.token$
-				   .pipe(take(1))
-				   .subscribe((token: string) => callback(token));
+				   .pipe(
+					   take(1),
+					   switchMap((token: string) => callback(token))
+				   );
 	}
 
 }

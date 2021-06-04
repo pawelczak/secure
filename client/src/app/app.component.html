@@ -1,7 +1,8 @@
 <button (click)="loadValues()">Load Data</button>
 
 <ul>
-	<li *ngFor="let items of values$ | async">
-		{{items}}
+	<li *ngFor="let message of messages$ | async">
+		{{message.title}}
+		{{message.username}}
 	</li>
 </ul>

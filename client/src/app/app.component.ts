@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ClosureService } from './http/closure/closure.service';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Message } from './message/message';
 
 @Component({
 	selector: 'app-root',
@@ -11,13 +13,13 @@ export class AppComponent {
 
 	title = 'secure';
 
-	values$: Observable<any> = of([]);
+	messages$: Observable<Array<Message>> = of([]);
 
 	constructor(private readonly closureService: ClosureService) {
 
 	}
 
 	loadValues(): void {
-		this.values$ = this.closureService.get('http://localhost:3000/posts');
+		this.messages$ = this.closureService.get('http://localhost:3000/posts');
 	}
 }

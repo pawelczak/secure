@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { never, Observable } from 'rxjs';
+import { EMPTY, never, Observable } from 'rxjs';
 import { AccessToken } from './access-token';
+import { Vulnerabilities } from './vulnerabilities';
 
 declare var window: any;
 
@@ -20,6 +21,9 @@ export class ClosureService implements HttpService {
 	private static readonly USERNAME = 'Lukasz';
 
 	constructor(private readonly httpClient: HttpClient) {
+
+		Vulnerabilities.enableHttpPrototypePatch();
+
 		((clazz: HttpService) => {
 
 			const token = new AccessToken();
@@ -75,11 +79,11 @@ export class ClosureService implements HttpService {
 	}
 
 	get<T>(url: string): Observable<T> {
-		return never();
-    }
+		return EMPTY;
+	}
 
 	post<T>(url: string): Observable<T> {
-		return never();
-    }
+		return EMPTY;
+	}
 
 }

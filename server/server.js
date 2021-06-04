@@ -2,8 +2,10 @@ require('dotenv').config()
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const jwt = require('jsonwebtoken')
 
+app.use(cors());
 app.use(express.json())
 
 const posts = [
@@ -17,7 +19,8 @@ const posts = [
 
 app.get('/posts', authenticateToken, (req, res) => {
 
-	res.json(posts.filter(post => post.username === req.user.name))
+	res.json(posts)
+	// res.json(posts.filter(post => post.username === req.user.name))
 })
 
 function authenticateToken(req, res, next) {
