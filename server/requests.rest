@@ -1,0 +1,19 @@
+GET http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmVyenkiLCJpYXQiOjE2MjI3MDc1OTQsImV4cCI6MTYyMjcwNzYwOX0.femoCz3D0X9kNhEGZZB2raaGP5lW2hn_ZPItVEK9XOY
+
+###
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+	"username": "Lukasz"
+}
+
+###
+
+POST http://localhost:4000/token
+Content-Type: application/json
+
+{
+	"token": ""
+}
