@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ClosureService } from './http/closure/closure.service';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { Message } from './message/message';
 
 @Component({

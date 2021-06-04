@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EMPTY, never, Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { AccessToken } from './access-token';
 import { Vulnerabilities } from './vulnerabilities';
 
