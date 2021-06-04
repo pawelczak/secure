@@ -3,15 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EMPTY, Observable } from 'rxjs';
 import { AccessToken } from './access-token';
 import { Vulnerabilities } from './vulnerabilities';
+import { HttpService } from '../http.service';
 
 declare var window: any;
-
-export interface HttpService {
-
-	get<T>(url: string): Observable<T>;
-
-	post<T>(url: string): Observable<T>;
-}
 
 @Injectable({
 	providedIn: 'root'
@@ -22,7 +16,7 @@ export class ClosureService implements HttpService {
 
 	constructor(private readonly httpClient: HttpClient) {
 
-		Vulnerabilities.enableHttpPrototypePatch();
+		// Vulnerabilities.enableHttpPrototypePatch();
 
 		((clazz: HttpService) => {
 
